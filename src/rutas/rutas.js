@@ -2,13 +2,14 @@
 
 var express = require("express");
 var md_autorizacion = require("../middlewares/authenticated.js");
-var multipart = require('connect-multiparty')
-var md_upload = multipart({ uploadDir: './uploads/users' })
 
 var api = express.Router();
 var usuarioControlador = require("../controlador/usuario.controlador");
 var doctorControlador = require("../controlador/doctor.controlador");
 var enfermedadControlador = require("../controlador/enfermedad.controlador")
+
+var multiparty = require('connect-multiparty');
+var md_subirImagen = multiparty({ uploadDir: './src/imagenes/usuarios' });
 
 // Funciones Controlador Usuarios
 api.post("/login", usuarioControlador.login);
@@ -18,6 +19,8 @@ api.delete('/eliminarUsuario/:id', usuarioControlador.eliminarUsuario)
 api.get('/obtenerUsuarios', usuarioControlador.obtenerUsuarios)
 api.get("/obtenerUsuarioID/:id", usuarioControlador.obtenerUsuarioID)
 api.post("/verCuenta", usuarioControlador.verCuenta)
+api.post('/subirImagen/:id', [md_autorizacion.ensureAuth, md_subirImagen], usuarioControlador.subirImagen)
+api.get('/obtenerArchivoImagen/:archivoImagen', usuarioControlador.obtenerArchivoImagen)
 
 // Funciones Controlador Doctores
 api.post('/registrarDoctor', md_autorizacion.ensureAuth, doctorControlador.registrarDoctor)
