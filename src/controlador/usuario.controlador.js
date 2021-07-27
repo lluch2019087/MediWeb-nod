@@ -90,45 +90,6 @@ function registrarUsuario(req, res) {
 
 }
 
-function registrarDoctor(req, res) {
-
-    var usuarioModel = new Usuario();
-    var params = req.body;
-
-    if (params.username && params.password) {
-
-        if (req.user.rol === "ROL_ADMIN") {
-            usuarioModel.username = params.username;
-            usuarioModel.rol = "ROL_DOCTOR";
-            Usuario.find({
-                username: params.username
-            }).exec((err, adminoEncontrado) => {
-                if (err) return console.log({ mensaje: "Error en la peticion" });
-                if (adminoEncontrado.length >= 1) {
-                    return res.status(500).send("Este usuario ya existe");
-                } else {
-                    bcrypt.hash(params.password, null, null, (err, passwordEncriptada) => {
-                        usuarioModel.password = passwordEncriptada;
-                        usuarioModel.save((err, usuarioguardado) => {
-                            if (err) return res.status(500).send({ mensaje: "Error en la peticion" });
-                            if (usuarioguardado) {
-                                res.status(200).send({ usuarioguardado });
-                            } else {
-                                res.status(500).send({ mensaje: "Error al registrar el usuario" });
-                            }
-                        });
-                    });
-                }
-            });
-        } else {
-            if (err) return res.status(500).send({ mensaje: "No tiene permisos " });
-        }
-    } else {
-        if (err) return res.status(500).send({ mensaje: "No puede dejar parametros vacios" });
-    }
-
-}
-
 function verCuenta(req, res) {
     Usuario.findById(req.user.sub, (err, usuarioEncontrado) => {
         if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
@@ -189,6 +150,5 @@ module.exports = {
     obtenerUsuarios,
     obtenerUsuarioID,
     editarUsuario,
-    eliminarUsuario,
-    registrarDoctor
+    eliminarUsuario
 }
