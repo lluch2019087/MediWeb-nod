@@ -73,8 +73,34 @@ function eliminarDoctor(req, res) {
     }
 }
 
+function obtenerDoctores(req, res) {
+    if (req.user.rol === "ROL_ADMIN") {
+
+        Usuario.find({ rol: "ROL_DOCTOR" }, (err, usuarios_registrados) => {
+            if (err) return res.status(500).send({ mensaje: "Error en peticion" });
+            if (!usuarios_registrados) return res.status(500).send({ mensaje: "Error peticion" });
+            return res.status(200).send({ usuarios_registrados });
+        })
+
+    } else res.status(500).send({ mensaje: "No tienes permisos" });
+}
+
+function obtenerDoctor(req, res) {
+    var id = req.params.id;
+    //if (req.user.rol === "ROL_ADMIN") {
+
+    Usuario.findOne({ _id: id, rol: "ROL_DOCTOR" }, (err, usuario_registrado) => {
+        if (err) return res.status(500).send({ mensaje: "Error en peticion" });
+        if (!usuario_registrado) return res.status(500).send({ mensaje: "Error en peticion" });
+        return res.status(200).send({ usuario_registrado });
+    })
+
+    //} else res.status(500).send({ mensaje: "No tienes permisos" });
+}
 module.exports = {
     registrarDoctor,
     editarDoctor,
-    eliminarDoctor
+    eliminarDoctor,
+    obtenerDoctores,
+    obtenerDoctor
 }
