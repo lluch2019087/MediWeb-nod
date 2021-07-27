@@ -3,6 +3,8 @@
 var Usuario = require('../modelo/usuario.modelo')
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../servicios/jwt')
+var fs = require('fs')
+var path = require('path')
 
 function adminApp(req, res) {
     var usuarioModel = Usuario();
@@ -63,7 +65,7 @@ function registrarUsuario(req, res) {
     if (params.username && params.password) {
         usuarioModel.username = params.username;
         usuarioModel.rol = "ROL_USUARIO";
-        usuarioModel.image = null;
+        usuarioModel.image = params.image;
         Usuario.find({
             username: params.username
         }).exec((err, adminoEncontrado) => {
