@@ -10,6 +10,7 @@ var enfermedadControlador = require("../controlador/enfermedad.controlador")
 
 var multiparty = require('connect-multiparty');
 var md_subirImagen = multiparty({ uploadDir: './src/imagenes/usuarios' });
+var md_subirImagenEnfermedad = multiparty({ uploadDir: './src/imagenes/enfermedades' });
 
 // Funciones Controlador Usuarios
 api.post("/login", usuarioControlador.login);
@@ -35,5 +36,7 @@ api.delete('/eliminarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadCont
 api.put('/editarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadControlador.editarEnfermedad)
 api.get('/obtenerEnfermedadID/:id', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedadID)
 api.get('/obtenerEnfermedades', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedades)
+api.post('/subirImagenEnfermedad/:id', md_subirImagenEnfermedad, enfermedadControlador.subirImagenEnfermedad)
+api.get('/obtenerArchivoImagenEnf/:archivoImagen', enfermedadControlador.obtenerArchivoImagenEnf)
 
 module.exports = api;

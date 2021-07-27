@@ -4,6 +4,8 @@ var Enfermedad = require('../modelo/enfermedad.modelo')
 var Usuario = require('../modelo/usuario.modelo')
 var bcrypt = require('bcrypt-nodejs');
 var jwt = require('../servicios/jwt')
+var fs = require('fs')
+var path = require('path')
 
 function registrarEnfermedad(req, res) {
     var enfermedadModelo = new Enfermedad();
@@ -95,10 +97,68 @@ function obtenerEnfermedades(req, res) {
     });
 }
 
+//Subir archivos de imagen
+function subirImagenEnfermedad(req, res) {
+    var enfermedadID = req.params.id
+
+    if (req.files) {
+        var file_path = req.files.image.path
+        console.log(file_path)
+
+        var file_split = file_path.split('\\')
+        console.log(file_split)
+
+        var file_name = file_split[3]
+        console.log(file_name)
+
+        var extension_split = file_name.split('\.')
+        console.log(extension_split)
+
+        var file_extension = extension_split[1]
+        console.log(file_extension)
+
+        if (file_extension == 'png' || file_extension == 'jpg' || file_extension == 'jpeg' || file_extension == 'gif') {
+            // Actualizar Documento de usuario Logueado
+            Enfermedad.findByIdAndUpdate(enfermedadID, { image: file_name }, { new: true }, (err, usuarioActualizado) => {
+                if (err) res.status(500).send({ mensaje: 'Error en la peticion' })
+                if (!usuarioActualizado) return res.status(500).send({ mensaje: 'No se pudo actualizar al usuario' })
+
+                return res.status(200).send({ usuarioActualizado })
+            })
+        } else {
+            return removeFilesOfUploads(res, file_path, 'La extension no es valida')
+        }
+
+    } else {
+        return res.status(500).send({ mensaje: 'No se han subido imagenes' })
+    }
+}
+
+function removeFilesOfUploads(res, file_path, mensaje) {
+    fs.unlink(file_path, (err) => {
+        return res.status(200).send({ mensaje: mensaje });
+    })
+}
+
+function obtenerArchivoImagenEnf(req, res) {
+    var archivoImagen = req.params.archivoImagen
+    var path_file = './src/imagenes/enfermedades/' + archivoImagen
+
+    fs.exists(path_file, (exists) => {
+        if (exists) {
+            res.sendFile(path.resolve(path_file))
+        } else {
+            res.status(200).send({ mensaje: 'No existe la imagen' })
+        }
+    })
+}
+
 module.exports = {
     registrarEnfermedad,
     eliminarEnfermedad,
     editarEnfermedad,
     obtenerEnfermedadID,
-    obtenerEnfermedades
+    obtenerEnfermedades,
+    subirImagenEnfermedad,
+    obtenerArchivoImagenEnf
 }
