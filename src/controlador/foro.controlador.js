@@ -78,6 +78,8 @@ function agregarComentarioDoc(req, res) {
     }
 }
 
+
+
 module.exports = {
     crearPregunta,
     eliminarPregunta,
