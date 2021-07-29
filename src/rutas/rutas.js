@@ -34,6 +34,6 @@ api.post('/registrarEnfermedad', md_autorizacion.ensureAuth, enfermedadControlad
 api.delete('/eliminarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadControlador.eliminarEnfermedad)
 api.put('/editarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadControlador.editarEnfermedad)
 api.get('/obtenerEnfermedadID/:id', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedadID)
-api.get('/obtenerEnfermedades', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedades)
+api.get('/obtenerEnfermedades',  enfermedadControlador.obtenerEnfermedades)
 
 module.exports = api;
