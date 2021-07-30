@@ -19,9 +19,9 @@ api.put('/editarUsuario/:id', usuarioControlador.editarUsuario)
 api.delete('/eliminarUsuario/:id', usuarioControlador.eliminarUsuario)
 api.get('/obtenerUsuarios', usuarioControlador.obtenerUsuarios)
 api.get("/obtenerUsuarioID/:id", usuarioControlador.obtenerUsuarioID)
-api.post("/verCuenta", usuarioControlador.verCuenta)
-api.post('/subirImagen/:id', [md_autorizacion.ensureAuth, md_subirImagen], usuarioControlador.subirImagen)
-api.get('/obtenerArchivoImagen/:archivoImagen', usuarioControlador.obtenerArchivoImagen)
+api.get("/verCuenta", usuarioControlador.verCuenta)
+api.post('/subirImagen', [md_autorizacion.ensureAuth, md_subirImagen], usuarioControlador.subirImagen)
+api.get('/obtenerArchivoImagen/:imagen', usuarioControlador.obtenerArchivoImagen)
 
 // Funciones Controlador Doctores
 api.post('/registrarDoctor', md_autorizacion.ensureAuth, doctorControlador.registrarDoctor)
