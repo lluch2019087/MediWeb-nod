@@ -62,7 +62,7 @@ function editarDoctor(req, res) {
 function eliminarDoctor(req, res) {
     var idUsuario = req.params.id;
 
-    if (req.user.rol == 'ROL_ADMIN') {
+    if (req.user.rol === 'ROL_ADMIN') {
         Usuario.findByIdAndDelete(idUsuario, function(err, doctorEliminado) {
             if (err) return res.status(500).send({ mensaje: 'Error borrando usuario' })
             if (!doctorEliminado) return res.status(500).send({ mensaje: 'No se pudo eliminar usuario porque no hay datos' })
@@ -74,15 +74,13 @@ function eliminarDoctor(req, res) {
 }
 
 function obtenerDoctores(req, res) {
-    if (req.user.rol === "ROL_ADMIN") {
 
-        Usuario.find({ rol: "ROL_DOCTOR" }, (err, usuarios_registrados) => {
-            if (err) return res.status(500).send({ mensaje: "Error en peticion" });
-            if (!usuarios_registrados) return res.status(500).send({ mensaje: "Error peticion" });
-            return res.status(200).send({ usuarios_registrados });
-        })
+    Usuario.find({ rol: "ROL_DOCTOR" }, (err, usuarios_registrados) => {
+        if (err) return res.status(500).send({ mensaje: "Error en peticion" });
+        if (!usuarios_registrados) return res.status(500).send({ mensaje: "Error peticion" });
+        return res.status(200).send({ usuarios_registrados });
+    })
 
-    } else res.status(500).send({ mensaje: "No tienes permisos" });
 }
 
 function obtenerDoctor(req, res) {

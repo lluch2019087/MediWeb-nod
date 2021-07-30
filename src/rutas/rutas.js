@@ -27,8 +27,8 @@ api.get('/obtenerArchivoImagen/:archivoImagen', usuarioControlador.obtenerArchiv
 api.post('/registrarDoctor', md_autorizacion.ensureAuth, doctorControlador.registrarDoctor)
 api.put('/editarDoctor/:id', md_autorizacion.ensureAuth, doctorControlador.editarDoctor)
 api.delete('/eliminarDoctor/:id', md_autorizacion.ensureAuth, doctorControlador.eliminarDoctor)
-api.get('/obtenerDoctores', md_autorizacion.ensureAuth, doctorControlador.obtenerDoctores)
-api.get("/obtenerDoctor/:id", md_autorizacion.ensureAuth, doctorControlador.obtenerDoctor)
+api.get('/obtenerDoctores', doctorControlador.obtenerDoctores)
+api.get("/obtenerDoctor/:id", doctorControlador.obtenerDoctor)
 
 // Funciones Controlador Enfermedades
 api.post('/registrarEnfermedad', md_autorizacion.ensureAuth, enfermedadControlador.registrarEnfermedad)
