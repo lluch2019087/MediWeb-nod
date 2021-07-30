@@ -93,11 +93,12 @@ function registrarUsuario(req, res) {
 }
 
 function verCuenta(req, res) {
-    Usuario.findById(req.user.sub, (err, usuarioEncontrado) => {
+
+    Usuario.findById(req.user.sub, ((err, usuarioEncontrado) => {
         if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
         if (!usuarioEncontrado) return res.status(500).send({ mensaje: 'error al buscar usuario' });
         return res.status(200).send({ usuarioEncontrado });
-    })
+    }))
 }
 
 function obtenerUsuarios(req, res) {
@@ -146,10 +147,10 @@ function eliminarUsuario(req, res) {
 
 //Subir archivos de imagen
 function subirImagen(req, res) {
-    var usuarioID = req.params.id
+    var usuarioID = req.user.sub
 
     if (req.files) {
-        var file_path = req.files.image.path
+        var file_path = req.files.imagen.path
         console.log(file_path)
 
         var file_split = file_path.split('\\')
@@ -158,10 +159,10 @@ function subirImagen(req, res) {
         var file_name = file_split[3]
         console.log(file_name)
 
-        var extension_split = file_name.split('\.')
+        var extension_split = file_name.split('.')
         console.log(extension_split)
 
-        var file_extension = extension_split[1]
+        var file_extension = extension_split[1].toLowerCase()
         console.log(file_extension)
 
         if (usuarioID != req.user.sub) {
@@ -170,11 +171,11 @@ function subirImagen(req, res) {
 
         if (file_extension == 'png' || file_extension == 'jpg' || file_extension == 'jpeg' || file_extension == 'gif') {
             // Actualizar Documento de usuario Logueado
-            Usuario.findByIdAndUpdate(usuarioID, { image: file_name }, { new: true }, (err, usuarioActualizado) => {
+            Usuario.findByIdAndUpdate(usuarioID, { imagen: file_name }, { new: true }, (err, usuarioEncontrado) => {
                 if (err) res.status(500).send({ mensaje: 'Error en la peticion' })
-                if (!usuarioActualizado) return res.status(500).send({ mensaje: 'No se pudo actualizar al usuario' })
+                if (!usuarioEncontrado) return res.status(500).send({ mensaje: 'No se pudo actualizar al usuario' })
 
-                return res.status(200).send({ usuarioActualizado })
+                return res.status(200).send({ usuarioEncontrado })
             })
         } else {
             return removeFilesOfUploads(res, file_path, 'La extension no es valida')
@@ -192,10 +193,10 @@ function removeFilesOfUploads(res, file_path, mensaje) {
 }
 
 function obtenerArchivoImagen(req, res) {
-    var archivoImagen = req.params.archivoImagen
-    var path_file = './src/imagenes/usuarios/' + archivoImagen
+    var archivoImagen = req.params.imagen
+    var path_file = "./src/imagenes/usuarios/" + archivoImagen;
 
-    fs.exists(path_file, (exists) => {
+    fs.access(path_file, (exists) => {
         if (exists) {
             res.sendFile(path.resolve(path_file))
         } else {
