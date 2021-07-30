@@ -124,7 +124,6 @@ function editarUsuario(req, res) {
     var idUsuario = req.params.id;
     var params = req.body;
     delete params.password;
-    delete params.rol;
 
     Usuario.findByIdAndUpdate(idUsuario, params, { new: true }, (err, usuarioActualizado) => {
         if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
@@ -196,11 +195,12 @@ function obtenerArchivoImagen(req, res) {
     var archivoImagen = req.params.imagen
     var path_file = "./src/imagenes/usuarios/" + archivoImagen;
 
-    fs.access(path_file, (exists) => {
-        if (exists) {
-            res.sendFile(path.resolve(path_file))
-        } else {
+    fs.access(path_file, (err) => {
+        if (err) {
             res.status(200).send({ mensaje: 'No existe la imagen' })
+
+        } else {
+            res.sendFile(path.resolve(path_file))
         }
     })
 }
