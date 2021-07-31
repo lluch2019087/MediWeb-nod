@@ -94,11 +94,11 @@ function registrarUsuario(req, res) {
 
 function verCuenta(req, res) {
 
-    Usuario.findById(req.user.sub, ((err, usuarioEncontrado) => {
+    Usuario.findById(req.user.sub, (err, usuarioEncontrado) => {
         if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
         if (!usuarioEncontrado) return res.status(500).send({ mensaje: 'error al buscar usuario' });
         return res.status(200).send({ usuarioEncontrado });
-    }))
+    })
 }
 
 function obtenerUsuarios(req, res) {
@@ -111,9 +111,9 @@ function obtenerUsuarios(req, res) {
 }
 
 function obtenerUsuarioID(req, res) {
-    var usuarioId = req.params.id;
+    var idUsuario = req.params.idUsuario;
 
-    Usuario.findById(usuarioId, (err, usuarioEncontrado) => {
+    Usuario.findById(idUsuario, (err, usuarioEncontrado) => {
         if (err) return res.status(500).send({ mensaje: 'Error en la peticion de Usuario' });
         if (!usuarioEncontrado) return res.status(500).send({ mensaje: 'Error al obtener el Usuario.' });
         return res.status(200).send({ usuarioEncontrado });
@@ -121,15 +121,17 @@ function obtenerUsuarioID(req, res) {
 }
 
 function editarUsuario(req, res) {
-    var idUsuario = req.params.id;
+    var idUsuario = req.params.idUsuario;
     var params = req.body;
     delete params.password;
+    delete params.rol;
 
-    Usuario.findByIdAndUpdate(idUsuario, params, { new: true }, (err, usuarioActualizado) => {
+
+    Usuario.findByIdAndUpdate(idUsuario, params, { new: true }, (err, usuarioEncontrado) => {
         if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
-        if (!usuarioActualizado) return res.status(500).send({ mensaje: 'No se a podido editar al Usuario' });
+        if (!usuarioEncontrado) return res.status(500).send({ mensaje: 'No se a podido editar al Usuario' });
 
-        return res.status(200).send({ usuarioActualizado })
+        return res.status(200).send({ usuarioEncontrado })
     })
 
 }

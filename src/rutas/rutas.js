@@ -16,11 +16,11 @@ var md_subirImagenEnfermedad = multiparty({ uploadDir: './src/imagenes/enfermeda
 // Funciones Controlador Usuarios
 api.post("/login", usuarioControlador.login);
 api.post('/registrarUsuario', usuarioControlador.registrarUsuario)
-api.put('/editarUsuario/:id', usuarioControlador.editarUsuario)
+api.put('/editarUsuario/:idUsuario', md_autorizacion.ensureAuth, usuarioControlador.editarUsuario);
 api.delete('/eliminarUsuario/:id', usuarioControlador.eliminarUsuario)
 api.get('/obtenerUsuarios', usuarioControlador.obtenerUsuarios)
-api.get("/obtenerUsuarioID/:id", usuarioControlador.obtenerUsuarioID)
-api.get("/verCuenta", usuarioControlador.verCuenta)
+api.get("/obtenerUsuarioID/:idUsuario", usuarioControlador.obtenerUsuarioID)
+api.get("/verCuenta", md_autorizacion.ensureAuth, usuarioControlador.verCuenta)
 api.post('/subirImagen', [md_autorizacion.ensureAuth, md_subirImagen], usuarioControlador.subirImagen)
 api.get('/obtenerArchivoImagen/:imagen', usuarioControlador.obtenerArchivoImagen)
 
