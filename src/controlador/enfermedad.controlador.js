@@ -90,6 +90,16 @@ function obtenerEnfermedadID(req, res) {
     }
 }
 
+function obtenerEnfermedad(req, res) {
+    var params = req.body;
+
+    Enfermedad.findOne({ nombre: params.nombre }, (err, enfermedadEncontrada) => {
+        if (err) return res.status(500).send({ mensaje: 'Error en la peticion de Usuario' });
+        if (!enfermedadEncontrada) return res.status(500).send({ mensaje: 'Error al obtener el Usuario.' });
+        return res.status(200).send({ enfermedadEncontrada });
+    });
+}
+
 function obtenerEnfermedades(req, res) {
 
     Enfermedad.find((err, enfermedadEncontrada) => {
@@ -161,6 +171,7 @@ module.exports = {
     editarEnfermedad,
     obtenerEnfermedadID,
     obtenerEnfermedades,
+    obtenerEnfermedad,
     subirImagenEnfermedad,
     obtenerArchivoImagenEnf
 }

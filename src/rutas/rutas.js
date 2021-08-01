@@ -36,6 +36,7 @@ api.post('/registrarEnfermedad', md_autorizacion.ensureAuth, enfermedadControlad
 api.delete('/eliminarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadControlador.eliminarEnfermedad)
 api.put('/editarEnfermedad/:id', md_autorizacion.ensureAuth, enfermedadControlador.editarEnfermedad)
 api.get('/obtenerEnfermedadID/:id', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedadID)
+api.post('/obtenerEnfermedad', enfermedadControlador.obtenerEnfermedad);
 api.get('/obtenerEnfermedades', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedades)
 api.post('/subirImagenEnfermedad/:id', md_subirImagenEnfermedad, enfermedadControlador.subirImagenEnfermedad)
 api.get('/obtenerArchivoImagenEnf/:archivoImagen', enfermedadControlador.obtenerArchivoImagenEnf)
