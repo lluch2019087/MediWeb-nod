@@ -15,6 +15,8 @@ function registrarEnfermedad(req, res) {
         enfermedadModelo.nombre = params.nombre;
         enfermedadModelo.descripcion = params.descripcion;
         enfermedadModelo.sintomas = params.sintomas;
+        enfermedadModelo.image = null;
+        enfermedadModelo.doctor = req.user.sub;
 
         if (params.nombre && params.descripcion && params.sintomas) {
             Enfermedad.find({
@@ -59,8 +61,8 @@ function eliminarEnfermedad(req, res) {
 function editarEnfermedad(req, res) {
     var enfermedadID = req.params.id;
     var params = req.body;
-    delete params.password;
-    delete params.rol;
+    delete params.image;
+    delete params.doctor;
 
     if (req.user.rol == 'ROL_DOCTOR') {
         Enfermedad.findByIdAndUpdate(enfermedadID, params, { new: true }, (err, enfermedadActualizada) => {
@@ -78,7 +80,7 @@ function obtenerEnfermedadID(req, res) {
     var enfermedadId = req.params.id;
 
     if (req.user.rol == 'ROL_DOCTOR') {
-        Enfermedad.findById(enfermedadId, (err, enfermedadEncontrada) => {
+        Enfermedad.find({ doctor: enfermedadId }, (err, enfermedadEncontrada) => {
             if (err) return res.status(500).send({ mensaje: 'Error en la peticion de Usuario' });
             if (!enfermedadEncontrada) return res.status(500).send({ mensaje: 'Error al obtener el Enfermedad.' });
             return res.status(200).send({ enfermedadEncontrada });
