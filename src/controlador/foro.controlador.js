@@ -78,10 +78,34 @@ function agregarComentarioDoc(req, res) {
     }
 }
 
+function listarPreguntasUsuario(req, res) {
+
+    Foro.find({ usuario: req.user.sub }, (err, preguntasEncontradas) => {
+        if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
+        if (!preguntasEncontradas) return res.status(500).send({ mensaje: 'aún no ha hecho preguntas' });
+
+        return res.status(200).send({ preguntasEncontradas });
+    })
+
+}
+
+function listarPreguntas(req, res) {
+
+    Foro.find((err, preguntasEncontradas) => {
+        if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
+        if (!preguntasEncontradas) return res.status(500).send({ mensaje: 'aún no ha hecho preguntas' });
+
+        return res.status(200).send({ preguntasEncontradas });
+    })
+
+}
+
 
 
 module.exports = {
     crearPregunta,
     eliminarPregunta,
-    agregarComentarioDoc
+    agregarComentarioDoc,
+    listarPreguntasUsuario,
+    listarPreguntas
 }
