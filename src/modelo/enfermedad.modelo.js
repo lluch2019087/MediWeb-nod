@@ -7,7 +7,8 @@ var EnfermedadSchema = Schema({
     nombre: String,
     descripcion: String,
     sintomas: String,
-    image: String
+    image: String,
+    doctor: { type: Schema.Types.ObjectId, ref: 'usuarios' }
 });
 
 module.exports = mongoose.model('enfermedades', EnfermedadSchema);
