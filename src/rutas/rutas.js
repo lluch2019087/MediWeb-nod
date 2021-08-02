@@ -46,8 +46,8 @@ api.get('/obtenerArchivoImagenEnf/:archivoImagen', enfermedadControlador.obtener
 api.post('/crearPregunta', md_autorizacion.ensureAuth, ForoControlador.crearPregunta);
 api.delete('/eliminarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.eliminarPregunta);
 api.post('/agregarComentarioDoc', md_autorizacion.ensureAuth, ForoControlador.agregarComentarioDoc);
-api.get('/listaPreguntasUsuario', md_autorizacion.ensureAuth, ForoControlador.listarPreguntasUsuario);
-api.get('/listaPreguntas', ForoControlador.listarPreguntasUsuario);
+api.get('/listarPreguntasUsuario', md_autorizacion.ensureAuth, ForoControlador.listarPreguntasUsuario);
+api.get('/listarPreguntas', ForoControlador.listarPreguntas);
 api.put('/editarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.editarPregunta)
 
 module.exports = api;
