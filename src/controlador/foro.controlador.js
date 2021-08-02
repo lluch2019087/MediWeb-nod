@@ -100,12 +100,27 @@ function listarPreguntas(req, res) {
 
 }
 
+function editarPregunta(req, res) {
+    var preguntaID = req.params.id;
+    var params = req.body;
 
+    delete params.comentarios
+
+    if (req.user.rol == 'ROL_USUARIO') {
+        Foro.findByIdAndUpdate(preguntaID, params, { new: true }, (err, preguntaActualizada) => {
+            if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+            if (!preguntaActualizada) return res.status(500).send({ mensaje: 'No se a podido actualizar la pregunta' });
+
+            return res.status(200).send({ preguntaActualizada })
+        })
+    }
+}
 
 module.exports = {
     crearPregunta,
     eliminarPregunta,
     agregarComentarioDoc,
     listarPreguntasUsuario,
-    listarPreguntas
+    listarPreguntas,
+    editarPregunta
 }
