@@ -48,6 +48,7 @@ api.delete('/eliminarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.
 api.post('/agregarComentarioDoc', md_autorizacion.ensureAuth, ForoControlador.agregarComentarioDoc);
 api.get('/listarPreguntasUsuario', md_autorizacion.ensureAuth, ForoControlador.listarPreguntasUsuario);
 api.get('/listarPreguntas', ForoControlador.listarPreguntas);
-api.put('/editarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.editarPregunta)
+api.put('/editarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.editarPregunta);
+api.get('/listarComentarios/:id', ForoControlador.listarComentarios);
 
 module.exports = api;
