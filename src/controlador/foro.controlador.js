@@ -49,7 +49,7 @@ function agregarComentarioDoc(req, res) {
         if (params.comentario) {
 
             Usuario.findOne({ _id: req.user.sub }, (err, doctorEncontrado) => {
-                if (err) return res.status(500).send({ mensaje: "error en la peticion" });
+                if (err) return res.status(500).send({ mensaje: "error en la peticion1" });
                 if (!doctorEncontrado) return res.status(500).send({ mensaje: "no se ha encontrado el doctor" });
 
                 Foro.updateOne({ _id: params.id }, {
@@ -61,11 +61,11 @@ function agregarComentarioDoc(req, res) {
                         }
                     }
                 }, (err, comentarioHecho) => {
-                    if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+                    if (err) return res.status(500).send({ mensaje: 'Error en la peticion2' });
                     if (!comentarioHecho) return res.status(500).send({ mensaje: 'No se ha agregado la habitacion' });
 
                     Foro.findOne({ _id: params.id }, (err, pregunta) => {
-                        if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+                        if (err) return res.status(500).send({ mensaje: 'Error en la peticion3' });
                         if (!pregunta) return res.status(500).send({ mensaje: 'Error' });
                         return res.status(200).send({ pregunta });
                     });
@@ -116,11 +116,23 @@ function editarPregunta(req, res) {
     }
 }
 
+function listarComentarios(req, res) {
+    var id = req.params.id;
+
+    Foro.findOne({ _id: id }, (err, preguntaEncontrada1) => {
+        if (err) return res.status(500).send({ mensaje: 'error en la petición' });
+        if (!preguntaEncontrada1) return res.status(500).send({ mensaje: 'no se encontró la pregunta' });
+
+        return res.status(200).send({ preguntaEncontrada1 });
+    });
+}
+
 module.exports = {
     crearPregunta,
     eliminarPregunta,
     agregarComentarioDoc,
     listarPreguntasUsuario,
     listarPreguntas,
-    editarPregunta
+    editarPregunta,
+    listarComentarios
 }
