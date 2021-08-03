@@ -41,6 +41,7 @@ api.post('/obtenerEnfermedad', enfermedadControlador.obtenerEnfermedad);
 api.get('/obtenerEnfermedades', md_autorizacion.ensureAuth, enfermedadControlador.obtenerEnfermedades)
 api.post('/subirImagenEnfermedad/:id', md_subirImagenEnfermedad, enfermedadControlador.subirImagenEnfermedad)
 api.get('/obtenerArchivoImagenEnf/:archivoImagen', enfermedadControlador.obtenerArchivoImagenEnf)
+api.post("/buscarEnfermedad", enfermedadControlador.buscarEnfermedad);
 
 
 //Funciones Controlador Foro
@@ -57,6 +58,8 @@ api.post('/verMedicamento', MedicamentoControlador.verMedicamento)
 api.put('/editarMedicamento/:id', md_autorizacion.ensureAuth, MedicamentoControlador.editarMedicamento)
 api.delete('/eliminarMedicamento/:id', md_autorizacion.ensureAuth, MedicamentoControlador.eliminarMedicamento)
 api.get('/obtenerMedicamentoID/:id', MedicamentoControlador.obtenerMedicamentoID)
-api.get('/obtenerMedicamento', MedicamentoControlador.obtenerMedicamento)
+api.post('/obtenerMedicamentos', MedicamentoControlador.obtenerMedicamentos)
+api.get("/obtenerMedi/:id", md_autorizacion.ensureAuth, MedicamentoControlador.obtenerMedi);
+
 
 module.exports = api;

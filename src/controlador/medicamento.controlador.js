@@ -83,14 +83,28 @@ function obtenerMedicamentoID(req, res) {
     })
 }
 
-function obtenerMedicamento(req, res) {
-
-    Medicamento.find((err, medicamentosEncontrado) => {
-        if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
-        if (!medicamentosEncontrado) return res.status(500).send({ mensaje: 'Error al obtener los medicamentos' });
-        return res.status(200).send({ medicamentosEncontrado });
-    });
+function obtenerMedicamentos(req, res) {
+    var params = req.body;
+    if (params.enfermedad) {
+        Medicamento.find({ enfermedad: params.enfermedad }, (err, medicamentosEncontrado) => {
+            if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
+            if (!medicamentosEncontrado) return res.status(500).send({ mensaje: 'Error al obtener los medicamentos' });
+            return res.status(200).send({ medicamentosEncontrado });
+        })
+    }
 }
+
+function obtenerMedi(req, res) {
+    var id = req.params.id;
+
+    Medicamento.findOne({ _id: id }, (err, Equipo_registrado) => {
+        if (err) return res.status(500).send({ mensaje: "Error en peticion" });
+        if (!Equipo_registrado) return res.status(500).send({ mensaje: "Error en peticion" });
+        return res.status(200).send({ Equipo_registrado });
+    })
+
+}
+
 
 module.exports = {
     registrarMedicamento,
@@ -98,5 +112,6 @@ module.exports = {
     editarMedicamento,
     eliminarMedicamento,
     obtenerMedicamentoID,
-    obtenerMedicamento
+    obtenerMedicamentos,
+    obtenerMedi
 }

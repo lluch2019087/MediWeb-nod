@@ -109,6 +109,22 @@ function obtenerEnfermedades(req, res) {
     });
 }
 
+function buscarEnfermedad(req, res) {
+    var params = req.body;
+    Enfermedad.findOne({ nombre: params.nombre }, (err, enfermedadEncontrada) => {
+        if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
+        if (!enfermedadEncontrada) {
+            if (err) return res.status(500).send({ mensaje: 'error en la peticion' });
+            if (!enfermedadEncontrada) return res.status(500).send({ mensaje: 'este hotel no existe' });
+
+            return res.status(200).send({ enfermedadEncontrada });
+
+        } else {
+            return res.status(200).send({ enfermedadEncontrada });
+        }
+    });
+
+}
 //Subir archivos de imagen
 function subirImagenEnfermedad(req, res) {
     var enfermedadID = req.params.id
@@ -173,5 +189,7 @@ module.exports = {
     obtenerEnfermedades,
     obtenerEnfermedad,
     subirImagenEnfermedad,
-    obtenerArchivoImagenEnf
+    obtenerArchivoImagenEnf,
+    buscarEnfermedad
+
 }
