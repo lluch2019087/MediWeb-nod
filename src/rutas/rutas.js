@@ -8,6 +8,7 @@ var usuarioControlador = require("../controlador/usuario.controlador");
 var doctorControlador = require("../controlador/doctor.controlador");
 var enfermedadControlador = require("../controlador/enfermedad.controlador")
 var ForoControlador = require("../controlador/foro.controlador");
+var MedicamentoControlador = require("../controlador/medicamento.controlador")
 
 var multiparty = require('connect-multiparty');
 var md_subirImagen = multiparty({ uploadDir: './src/imagenes/usuarios' });
@@ -50,5 +51,13 @@ api.get('/listarPreguntasUsuario', md_autorizacion.ensureAuth, ForoControlador.l
 api.get('/listarPreguntas', ForoControlador.listarPreguntas);
 api.put('/editarPregunta/:id', md_autorizacion.ensureAuth, ForoControlador.editarPregunta);
 api.get('/listarComentarios/:id', ForoControlador.listarComentarios);
+
+//Funciones Controlador Medicamento
+api.post('/registrarMedicamento', md_autorizacion.ensureAuth, MedicamentoControlador.registrarMedicamento)
+api.post('/verMedicamento', MedicamentoControlador.verMedicamento)
+api.put('/editarMedicamento/:id', md_autorizacion.ensureAuth, MedicamentoControlador.editarMedicamento)
+api.delete('/eliminarMedicamento/:id', md_autorizacion.ensureAuth, MedicamentoControlador.eliminarMedicamento)
+api.get('/obtenerMedicamentoID/:id', MedicamentoControlador.obtenerMedicamentoID)
+api.get('/obtenerMedicamento', MedicamentoControlador.obtenerMedicamento)
 
 module.exports = api;
