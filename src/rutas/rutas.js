@@ -9,6 +9,7 @@ var doctorControlador = require("../controlador/doctor.controlador");
 var enfermedadControlador = require("../controlador/enfermedad.controlador")
 var ForoControlador = require("../controlador/foro.controlador");
 var MedicamentoControlador = require("../controlador/medicamento.controlador")
+var CovidControlador = require("../controlador/covid.controlador");
 
 var multiparty = require('connect-multiparty');
 var md_subirImagen = multiparty({ uploadDir: './src/imagenes/usuarios' });
@@ -63,4 +64,7 @@ api.post('/obtenerMedicamentos', MedicamentoControlador.obtenerMedicamentos)
 api.get("/obtenerMedi/:id", md_autorizacion.ensureAuth, MedicamentoControlador.obtenerMedi);
 
 
+//Funciones Covid
+api.put('/editarCovid', CovidControlador.editarCovid);
+api.get('/listarCovid', CovidControlador.listarCovid);
 module.exports = api;
